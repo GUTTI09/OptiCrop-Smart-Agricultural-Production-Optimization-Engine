@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+{% block title %}Find Your Crop – OptiCrop{% endblock %}
+{% set active_page = 'findcrop' %}
+{% block body_class %}dark-prediction-page{% endblock %}
+
+{% block content %}
+    <!-- Find Your Crop Section -->
+    <section class="section crop-section" id="findcrop" style="padding-top: 160px;">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-tag">
+                    <i class="fas fa-search"></i> Find Your Crop
+                </div>
+                <h2 class="section-title">
+                    Discover the <span class="highlight">Perfect Crop</span> for Your Land
+                </h2>
+                <p class="section-desc">
+                    Enter your environmental and soil parameters below, and our AI engine will recommend the best crops for optimal yield.
+                </p>
+            </div>
+
+            <div class="crop-tool-container">
+                <div class="crop-form-wrapper reveal-left">
+                    <h3><i class="fas fa-sliders-h" style="color: var(--primary); margin-right: 10px;"></i>Enter Parameters</h3>
+                    <p>Fill in the details about your farming conditions</p>
+
+                    <form id="cropForm" onsubmit="handlePredict(event)">
+                        <!-- Autofill Weather Sensor Station Integration -->
+                        <div style="margin-bottom: 25px;">
+                            <button type="button" class="btn-secondary" id="btnAutofill" onclick="triggerWeatherAutofill()" style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; border: 1.5px dashed var(--primary); color: var(--primary); padding: 12px; border-radius: 50px; background: transparent; cursor: pointer; font-family: inherit; font-size: 0.9rem; transition: var(--transition);">
+                                <i class="fas fa-satellite-dish"></i> Sync Weather Telemetry (API Key Activated)
+                            </button>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label><i class="fas fa-temperature-high"></i>Temperature (°C)</label>
+                                <input type="number" id="temperature" class="form-control" placeholder="e.g. 25" required>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fas fa-tint"></i>Humidity (%)</label>
+                                <input type="number" id="humidity" class="form-control" placeholder="e.g. 65" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label><i class="fas fa-cloud-rain"></i>Rainfall (mm)</label>
+                                <input type="number" id="rainfall" class="form-control" placeholder="e.g. 120" required>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fas fa-flask"></i>Soil pH</label>
+                                <input type="number" step="0.1" id="ph" class="form-control" placeholder="e.g. 6.5" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label><i class="fas fa-atom"></i>Nitrogen (kg/ha)</label>
+                                <input type="number" id="nitrogen" class="form-control" placeholder="e.g. 90" required>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fas fa-atom"></i>Phosphorus (kg/ha)</label>
+                                <input type="number" id="phosphorus" class="form-control" placeholder="e.g. 45" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-atom"></i>Potassium (kg/ha)</label>
+                            <input type="number" id="potassium" class="form-control" placeholder="e.g. 45" required>
+                        </div>
+
+                        <button type="submit" class="btn-predict">
+                            <i class="fas fa-magic"></i> Predict Best Crop
+                        </button>
+                    </form>
+
+                    <!-- Loading State -->
+                    <div class="loading-prediction" id="loadingPrediction">
+                        <div class="spinner"></div>
+                        <p>Analyzing your parameters...</p>
+                        <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 10px;">Our AI is processing the data</p>
+                    </div>
+
+                    <!-- Prediction Results -->
+                    <div class="prediction-results" id="predictionResults">
+                        <div class="result-card">
+                            <div class="result-header">
+                                <h3><i class="fas fa-check-circle" style="color: var(--primary);"></i> Prediction Complete</h3>
+                                <p style="color: var(--text-muted);">Based on your soil and environmental conditions</p>
+                                <div class="recommended-crop" id="recommendedCrop">
+                                    <i class="fas fa-seedling"></i>
+                                    <span>Rice</span>
+                                </div>
+                            </div>
+
+                            <div class="result-details">
+                                <div class="detail-item">
+                                    <h4><i class="fas fa-chart-line"></i> Expected Yield</h4>
+                                    <p id="expectedYield">6-8 tons/hectare</p>
+                                </div>
+                                <div class="detail-item">
+                                    <h4><i class="fas fa-calendar"></i> Growing Season</h4>
+                                    <p id="growingSeason">4-5 months</p>
+                                </div>
+                                <div class="detail-item">
+                                    <h4><i class="fas fa-tint"></i> Water Requirement</h4>
+                                    <p id="waterRequirement">Moderate to High</p>
+                                </div>
+                                <div class="detail-item">
+                                    <h4><i class="fas fa-sun"></i> Sunlight Needs</h4>
+                                    <p id="sunlightNeeds">6-8 hours daily</p>
+                                </div>
+                            </div>
+
+                            <div class="confidence-meter">
+                                <h4><i class="fas fa-brain"></i> AI Confidence Score</h4>
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px;">
+                                    <span style="font-size: 0.9rem; color: var(--text-muted);">Prediction Accuracy</span>
+                                    <span id="confidenceValue" style="font-weight: 700; color: var(--primary); font-size: 1.2rem;">92%</span>
+                                </div>
+                                <div class="confidence-bar">
+                                    <div class="confidence-fill" id="confidenceFill"></div>
+                                </div>
+                            </div>
+
+                            <div style="margin-top: 25px; padding: 20px; background: rgba(45,106,79,0.05); border-radius: var(--radius); border-left: 4px solid var(--primary);">
+                                <h4 style="color: var(--primary); margin-bottom: 10px;"><i class="fas fa-lightbulb"></i> Farming Tips</h4>
+                                <ul id="farmingTips" style="color: var(--text-muted); padding-left: 20px; line-height: 1.8;">
+                                    <li>Maintain consistent irrigation schedule</li>
+                                    <li>Apply nitrogen fertilizer in split doses</li>
+                                    <li>Monitor for pest infestation weekly</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="crop-image-side reveal-right">
+                    <img src="{{ url_for('static', filename='images/findyourcrop.jpg') }}" alt="Find Your Crop - Crop Recommendation Interface">
+
+                    <div class="crop-info-cards">
+                        <div class="crop-info-card">
+                            <h4><i class="fas fa-thermometer-half" style="color: var(--primary);"></i> Temperature</h4>
+                            <p>Optimal range: 20-30°C</p>
+                        </div>
+                        <div class="crop-info-card">
+                            <h4><i class="fas fa-tint" style="color: #3498db;"></i> Moisture</h4>
+                            <p>Ideal: 60-80% humidity</p>
+                        </div>
+                        <div class="crop-info-card">
+                            <h4><i class="fas fa-flask" style="color: var(--accent);"></i> Soil pH</h4>
+                            <p>Best range: 6.0-7.5</p>
+                        </div>
+                        <div class="crop-info-card">
+                            <h4><i class="fas fa-sun" style="color: #f39c12;"></i> Sunlight</h4>
+                            <p>6-8 hours daily</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}OptiCrop – Smart Agricultural Production Optimization{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+
+    <!-- Flash Messages Toast Alerts -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-container">
+                {% for category, message in messages %}
+                    <div class="flash-message {{ category }}">
+                        <i class="fas {% if category == 'success' %}fa-check-circle{% elif category == 'error' %}fa-times-circle{% elif category == 'warning' %}fa-exclamation-triangle{% else %}fa-info-circle{% endif %}"></i>
+                        <span class="flash-text">{{ message }}</span>
+                        <button class="flash-close" onclick="this.parentElement.classList.add('hide'); setTimeout(() => this.parentElement.remove(), 400);">&times;</button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-content">
+            <div class="preloader-spinner"></div>
+            <p>OptiCrop</p>
+        </div>
+    </div>
+
+    <!-- Custom Cursor -->
+    <div class="custom-cursor" id="cursor"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar {% if active_page != 'home' %}scrolled-solid{% endif %}" id="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('home') }}" class="nav-logo">
+                <div class="nav-logo-icon">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                <span class="nav-logo-text">Opti<span>Crop</span></span>
+            </a>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="{{ url_for('home') }}" class="{{ 'active' if active_page == 'home' else '' }}">Home</a></li>
+                <li><a href="{{ url_for('about') }}" class="{{ 'active' if active_page == 'about' else '' }}">About</a></li>
+                {% if logged_in %}
+                    {% if is_admin %}
+                        <li><a href="{{ url_for('admin_dashboard') }}" class="{{ 'active' if active_page == 'admin_dashboard' else '' }}">Admin Panel</a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('find_your_crop') }}" class="{{ 'active' if active_page == 'findcrop' else '' }}">FindYourCrop</a></li>
+                        <li><a href="{{ url_for('dashboard') }}" class="{{ 'active' if active_page == 'dashboard' else '' }}">Dashboard</a></li>
+                    {% endif %}
+                {% endif %}
+            </ul>
+
+            <div class="nav-auth">
+                {% if logged_in %}
+                    <span class="nav-welcome" style="margin-right: 15px; font-weight: 500; font-size: 0.95rem; color: var(--text-dark); transition: var(--transition);">
+                        <i class="fas fa-user-circle" style="color: var(--primary); margin-right: 6px;"></i>Hi, <strong>{{ username }}</strong>
+                    </span>
+                    <a href="{{ url_for('logout') }}" class="btn-signin" style="text-decoration: none;">
+                        <i class="fas fa-sign-out-alt"></i> Sign Out
+                    </a>
+                {% else %}
+                    <button class="btn-signin" onclick="openModal('signin')">
+                        <i class="fas fa-sign-in-alt"></i> Sign In
+                    </button>
+                    <button class="btn-signup" onclick="openModal('signup')">
+                        <i class="fas fa-user-plus"></i> Sign Up
+                    </button>
+                {% endif %}
+            </div>
+
+            <div class="nav-toggle" id="navToggle" onclick="toggleNav()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    {% block content %}{% endblock %}
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <span class="nav-logo-text">Opti<span style="color: var(--accent);">Crop</span></span>
+                    <p>Smart Agricultural Production Optimization Engine — empowering farmers with AI-driven crop intelligence for a sustainable future.</p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="{{ url_for('home') }}">Home</a></li>
+                        <li><a href="{{ url_for('about') }}">About</a></li>
+                        {% if logged_in %}
+                            {% if is_admin %}
+                                <li><a href="{{ url_for('admin_dashboard') }}">Admin Dashboard</a></li>
+                            {% else %}
+                                <li><a href="{{ url_for('find_your_crop') }}">FindYourCrop</a></li>
+                                <li><a href="{{ url_for('dashboard') }}">User Dashboard</a></li>
+                            {% endif %}
+                        {% else %}
+                            <li><a href="{{ url_for('admin_login') }}"><i class="fas fa-user-shield"></i> Admin Portal</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">API Reference</a></li>
+                        <li><a href="#">Research Papers</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-envelope"></i> info@opticrop.com</a></li>
+                        <li><a href="#"><i class="fas fa-phone"></i> +91 98765 43210</a></li>
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> Agri Tech Park, India</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 OptiCrop. All rights reserved. Smart Agricultural Production Optimization.</p>
+                <p>Designed with <i class="fas fa-heart" style="color: #e74c3c;"></i> for Farmers</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top -->
+    <button class="scroll-top" id="scrollTop" onclick="scrollToTop()">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    {% include 'signin.html' %}
+    {% include 'signup.html' %}
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

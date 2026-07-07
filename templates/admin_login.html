@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Admin Portal Sign In – OptiCrop{% endblock %}
+
+{% block content %}
+<section class="hero" style="min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 120px 0 60px; background: var(--gradient-1);">
+    <div class="hero-bg-image" style="opacity: 0.12;"></div>
+    <div class="hero-particles" id="particles"></div>
+    <div class="hero-grid-overlay"></div>
+
+    <div class="container" style="max-width: 480px; position: relative; z-index: 5;">
+        <div class="reveal" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border-radius: var(--radius-lg); padding: 45px 35px; box-shadow: var(--shadow-lg); border: 1px solid rgba(255,255,255,0.2);">
+            
+            <div style="text-align: center; margin-bottom: 30px;">
+                <div style="width: 65px; height: 65px; border-radius: 18px; background: var(--gradient-1); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.8rem; margin: 0 auto 15px; box-shadow: var(--shadow-md);">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <h2 style="font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 800; color: var(--primary-dark);">Admin Portal</h2>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 5px;">Enter credentials to manage OptiCrop</p>
+            </div>
+
+            <!-- Login Form -->
+            <form action="{{ url_for('signin') }}" method="POST">
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label style="display: block; font-size: 0.85rem; font-weight: 600; color: var(--primary-dark); margin-bottom: 8px;">
+                        <i class="fas fa-envelope" style="margin-right: 6px; color: var(--primary);"></i>Username or Email Address
+                    </label>
+                    <input type="text" name="email" class="form-control" placeholder="e.g. admin" required 
+                           style="width: 100%; padding: 14px 20px; border-radius: 50px; border: 1.5px solid rgba(45,106,79,0.15); font-family: inherit; font-size: 0.95rem; transition: var(--transition); background: rgba(240,247,252,0.5);">
+                </div>
+
+                <div class="form-group" style="margin-bottom: 30px;">
+                    <label style="display: block; font-size: 0.85rem; font-weight: 600; color: var(--primary-dark); margin-bottom: 8px;">
+                        <i class="fas fa-lock" style="margin-right: 6px; color: var(--primary);"></i>Password
+                    </label>
+                    <input type="password" name="password" class="form-control" placeholder="••••••••" required
+                           style="width: 100%; padding: 14px 20px; border-radius: 50px; border: 1.5px solid rgba(45,106,79,0.15); font-family: inherit; font-size: 0.95rem; transition: var(--transition); background: rgba(240,247,252,0.5);">
+                </div>
+
+                <button type="submit" class="btn-predict" style="width: 100%; padding: 14px; border-radius: 50px; font-weight: 700; font-size: 1rem; border: none; background: var(--gradient-1); color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: var(--transition); box-shadow: var(--shadow-sm);">
+                    <i class="fas fa-sign-in-alt"></i> Access Dashboard
+                </button>
+            </form>
+
+            <div style="text-align: center; margin-top: 25px;">
+                <a href="{{ url_for('home') }}" style="font-size: 0.85rem; font-weight: 600; color: var(--primary); text-decoration: none;">
+                    <i class="fas fa-arrow-left"></i> Back to Home Page
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
+{% endblock %}

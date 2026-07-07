@@ -1,0 +1,36 @@
+<!-- Sign Up Modal -->
+<div class="modal-overlay" id="signupModal">
+    <div class="modal">
+        <button class="modal-close" onclick="closeModal('signup')">
+            <i class="fas fa-times"></i>
+        </button>
+        <h2>Join OptiCrop 🌱</h2>
+        <p>Create your account and start optimizing</p>
+
+        <form action="{{ url_for('signup') }}" method="POST">
+            <div class="form-group">
+                <label><i class="fas fa-user"></i>Full Name</label>
+                <input type="text" name="full_name" class="form-control" placeholder="John Doe" required>
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-at"></i>Username</label>
+                <input type="text" name="username" class="form-control" placeholder="johndoe12" required>
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-envelope"></i>Email Address</label>
+                <input type="email" name="email" class="form-control" placeholder="your@email.com" required>
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-lock"></i>Password</label>
+                <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="btn-predict">
+                <i class="fas fa-user-plus"></i> Create Account
+            </button>
+        </form>
+
+        <div class="modal-switch">
+            Already have an account? <a onclick="switchModal('signup', 'signin')">Sign In</a>
+        </div>
+    </div>
+</div>

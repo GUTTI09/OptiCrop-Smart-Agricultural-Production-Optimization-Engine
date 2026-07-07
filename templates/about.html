@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}About – OptiCrop{% endblock %}
+{% set active_page = 'about' %}
+
+{% block content %}
+    <!-- About Section -->
+    <section class="section about-section" id="about" style="padding-top: 160px;">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-image-container reveal-left">
+                    <div class="about-image">
+                        <img src="{{ url_for('static', filename='images/about.jpg') }}" alt="About OptiCrop - Machine Learning for Agriculture">
+                    </div>
+                    <div class="about-experience-badge">
+                        <span class="number">5+</span>
+                        <span class="label">Years of Research</span>
+                    </div>
+                </div>
+
+                <div class="about-content reveal-right">
+                    <div class="section-tag">
+                        <i class="fas fa-info-circle"></i> About OptiCrop
+                    </div>
+
+                    <h2>
+                        Intelligent <span class="highlight">Crop Prediction</span> Using Environmental & Soil Parameters
+                    </h2>
+
+                    <p>
+                        OptiCrop is a Smart Agricultural Production Optimization Engine that uses cutting-edge machine learning techniques to analyze environmental conditions, soil composition, and historical data to recommend the best crops for your farm. Our mission is to empower farmers with actionable insights that improve productivity, reduce waste, and support sustainable agricultural practices.
+                    </p>
+
+                    <div class="about-features">
+                        <div class="about-feature-item">
+                            <div class="about-feature-icon">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <div>
+                                <h4>ML-Powered Analysis</h4>
+                                <p>Advanced algorithms for accurate predictions</p>
+                            </div>
+                        </div>
+
+                        <div class="about-feature-item">
+                            <div class="about-feature-icon">
+                                <i class="fas fa-cloud-sun"></i>
+                            </div>
+                            <div>
+                                <h4>Climate Integration</h4>
+                                <p>Real-time weather & environmental data</p>
+                            </div>
+                        </div>
+
+                        <div class="about-feature-item">
+                            <div class="about-feature-icon">
+                                <i class="fas fa-flask"></i>
+                            </div>
+                            <div>
+                                <h4>Soil Analytics</h4>
+                                <p>Comprehensive soil health assessment</p>
+                            </div>
+                        </div>
+
+                        <div class="about-feature-item">
+                            <div class="about-feature-icon">
+                                <i class="fas fa-leaf"></i>
+                            </div>
+                            <div>
+                                <h4>Sustainable Farming</h4>
+                                <p>Eco-friendly agricultural practices</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="{{ url_for('find_your_crop') }}" class="btn-primary">
+                        <i class="fas fa-arrow-right"></i> Explore Features
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

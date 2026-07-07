@@ -1,0 +1,28 @@
+<!-- Sign In Modal -->
+<div class="modal-overlay" id="signinModal">
+    <div class="modal">
+        <button class="modal-close" onclick="closeModal('signin')">
+            <i class="fas fa-times"></i>
+        </button>
+        <h2>Welcome Back! 👋</h2>
+        <p>Sign in to access your OptiCrop dashboard</p>
+
+        <form action="{{ url_for('signin') }}" method="POST">
+            <div class="form-group">
+                <label><i class="fas fa-envelope"></i>Email Address</label>
+                <input type="text" name="email" class="form-control" placeholder="your@email.com or username" required>
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-lock"></i>Password</label>
+                <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="btn-predict">
+                <i class="fas fa-sign-in-alt"></i> Sign In
+            </button>
+        </form>
+
+        <div class="modal-switch">
+            Don't have an account? <a onclick="switchModal('signin', 'signup')">Sign Up</a>
+        </div>
+    </div>
+</div>

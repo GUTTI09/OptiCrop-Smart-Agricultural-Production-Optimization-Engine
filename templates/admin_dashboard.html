@@ -1,0 +1,340 @@
+{% extends "base.html" %}
+{% block title %}Admin Panel Dashboard – OptiCrop{% endblock %}
+{% set active_page = 'admin_dashboard' %}
+
+{% block content %}
+<section class="section admin-dashboard" style="padding-top: 140px; min-height: 90vh; background: var(--bg-light);">
+    <div class="container">
+        <!-- Header -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; flex-wrap: wrap; gap: 20px;">
+            <div class="section-header" style="text-align: left; margin-bottom: 0;">
+                <div class="section-tag" style="background: rgba(212,163,115,0.1); color: var(--accent);">
+                    <i class="fas fa-lock-open"></i> Administrative Control
+                </div>
+                <h2 class="section-title" style="margin-top: 10px; font-size: 2rem;">System <span class="highlight">Command Center</span></h2>
+            </div>
+            
+            <div style="background: white; padding: 12px 24px; border-radius: 50px; box-shadow: var(--shadow-sm); border: 1px solid rgba(45,106,79,0.08); display: flex; align-items: center; gap: 15px;">
+                <div style="width: 10px; height: 10px; border-radius: 50%; background: #2ecc71; animation: pulse 2s infinite;"></div>
+                <span style="font-size: 0.9rem; font-weight: 600; color: var(--primary-dark);">System Status: Secure</span>
+            </div>
+        </div>
+
+        <!-- Quick Stats Grid -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; margin-bottom: 45px;">
+            
+            <!-- Stat 1 -->
+            <div class="metric-card" style="background: white; padding: 25px; border-radius: var(--radius); box-shadow: var(--shadow-sm); border: 1px solid rgba(45,106,79,0.08);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">Registered Users</span>
+                    <div style="width: 40px; height: 40px; border-radius: 10px; background: rgba(45,106,79,0.1); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+                <h3 style="font-size: 2rem; font-weight: 800; color: var(--primary-dark);">{{ stats.total_users }}</h3>
+                <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">Farmers using the platform</p>
+            </div>
+
+            <!-- Stat 2 -->
+            <div class="metric-card" style="background: white; padding: 25px; border-radius: var(--radius); box-shadow: var(--shadow-sm); border: 1px solid rgba(45,106,79,0.08);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">Predictions Logged</span>
+                    <div style="width: 40px; height: 40px; border-radius: 10px; background: rgba(52,152,219,0.1); color: #3498db; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+                        <i class="fas fa-database"></i>
+                    </div>
+                </div>
+                <h3 style="font-size: 2rem; font-weight: 800; color: var(--primary-dark);">{{ stats.total_predictions }}</h3>
+                <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">AI analysis executions</p>
+            </div>
+
+            <!-- Stat 3 -->
+            <div class="metric-card" style="background: white; padding: 25px; border-radius: var(--radius); box-shadow: var(--shadow-sm); border: 1px solid rgba(45,106,79,0.08);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">Top Suitability Crop</span>
+                    <div style="width: 40px; height: 40px; border-radius: 10px; background: rgba(241,196,15,0.1); color: #f1c40f; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                </div>
+                <h3 style="font-size: 1.5rem; font-weight: 800; color: var(--primary-dark); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ stats.most_predicted_crop }}</h3>
+                <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">Most frequent model yield recommendations</p>
+            </div>
+
+            <!-- Stat 4 -->
+            <div class="metric-card" style="background: white; padding: 25px; border-radius: var(--radius); box-shadow: var(--shadow-sm); border: 1px solid rgba(45,106,79,0.08);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">Prediction Model</span>
+                    <div style="width: 40px; height: 40px; border-radius: 10px; background: rgba(155,89,182,0.1); color: #9b59b6; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                </div>
+                <h3 style="font-size: 1.4rem; font-weight: 800; color: var(--primary-dark); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                    {% if stats.model_loaded %}
+                        {{ stats.model_type }}
+                    {% else %}
+                        Not Loaded
+                    {% endif %}
+                </h3>
+                <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">pkl binary loaded on server</p>
+            </div>
+            
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div style="display: flex; gap: 10px; border-bottom: 2px solid rgba(45,106,79,0.08); padding-bottom: 0; margin-bottom: 30px; overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch;">
+            <button class="admin-tab-btn active" onclick="switchAdminTab('users')"><i class="fas fa-users-cog"></i> User Management</button>
+            <button class="admin-tab-btn" onclick="switchAdminTab('logs')"><i class="fas fa-list-alt"></i> Prediction Audit Logs</button>
+            <button class="admin-tab-btn" onclick="switchAdminTab('diagnostics')"><i class="fas fa-satellite-dish"></i> Integrations & APIs</button>
+            <button class="admin-tab-btn" onclick="switchAdminTab('maintenance')"><i class="fas fa-tools"></i> System Maintenance</button>
+        </div>
+
+        <!-- TAB 1: USER MANAGEMENT -->
+        <div id="tab-users" class="admin-tab-content active" style="background: white; border-radius: var(--radius-lg); padding: 35px; box-shadow: var(--shadow-sm); border: 1px solid rgba(45,106,79,0.06);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px;">
+                <h3 style="font-size: 1.3rem; font-weight: 700; color: var(--primary-dark);"><i class="fas fa-users" style="color: var(--primary); margin-right: 8px;"></i> Registered Farmers</h3>
+                <span style="font-size: 0.85rem; color: var(--text-muted);">Total: {{ users|length }} accounts</span>
+            </div>
+            
+            <div class="table-responsive" style="overflow-x: auto;">
+                <table class="dashboard-table" style="width: 100%; border-collapse: collapse; text-align: left;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid rgba(45,106,79,0.08); color: var(--text-muted); font-size: 0.85rem;">
+                            <th style="padding: 15px 10px; font-weight: 600;">ID</th>
+                            <th style="padding: 15px 10px; font-weight: 600;">Name</th>
+                            <th style="padding: 15px 10px; font-weight: 600;">Username</th>
+                            <th style="padding: 15px 10px; font-weight: 600;">Email</th>
+                            <th style="padding: 15px 10px; font-weight: 600;">Role</th>
+                            <th style="padding: 15px 10px; font-weight: 600;">Registered At</th>
+                            <th style="padding: 15px 10px; font-weight: 600; text-align: right;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr style="border-bottom: 1px solid rgba(45,106,79,0.05); font-size: 0.9rem;">
+                            <td style="padding: 18px 10px; font-weight: 700; color: var(--text-muted);">{{ user.id }}</td>
+                            <td style="padding: 18px 10px; font-weight: 600; color: var(--primary-dark);">{{ user.fullname }}</td>
+                            <td style="padding: 18px 10px; color: var(--text-muted);">@{{ user.username }}</td>
+                            <td style="padding: 18px 10px; color: var(--text-muted);">{{ user.email }}</td>
+                            <td style="padding: 18px 10px;">
+                                <span style="background: {% if user.role == 'admin' %}#fef9e7; color: #d4ac0d;{% else %}#eef7f2; color: #27ae60;{% endif %} font-weight: 700; font-size: 0.75rem; padding: 4px 10px; border-radius: 50px; text-transform: uppercase;">
+                                    {{ user.role }}
+                                </span>
+                            </td>
+                            <td style="padding: 18px 10px; color: var(--text-muted); font-size: 0.85rem;">{{ user.created_at[:16].replace('T', ' ') }}</td>
+                            <td style="padding: 18px 10px; text-align: right;">
+                                {% if user.role != 'admin' %}
+                                <form action="{{ url_for('admin_delete_user', user_id=user.id) }}" method="POST" onsubmit="return confirm('Are you sure you want to permanently delete this user account and all their records?');" style="display: inline;">
+                                    <button type="submit" style="background: none; border: none; color: #e74c3c; cursor: pointer; font-size: 0.9rem; padding: 5px;" title="Delete User Account">
+                                        <i class="fas fa-trash-alt"></i> Delete
+                                    </button>
+                                </form>
+                                {% else %}
+                                <span style="color: var(--text-muted); font-size: 0.8rem; font-style: italic;">Protected</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- TAB 2: PREDICTION LOGS -->
+        <div id="tab-logs" class="admin-tab-content" style="background: white; border-radius: var(--radius-lg); padding: 35px; box-shadow: var(--shadow-sm); border: 1px solid rgba(45,106,79,0.06);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px;">
+                <h3 style="font-size: 1.3rem; font-weight: 700; color: var(--primary-dark);"><i class="fas fa-list-alt" style="color: var(--primary); margin-right: 8px;"></i> Global Prediction Audit Log</h3>
+                <span style="font-size: 0.85rem; color: var(--text-muted);">Total predictions logged: {{ predictions|length }}</span>
+            </div>
+
+            {% if predictions|length > 0 %}
+            <div class="table-responsive" style="overflow-x: auto;">
+                <table class="dashboard-table" style="width: 100%; border-collapse: collapse; text-align: left;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid rgba(45,106,79,0.08); color: var(--text-muted); font-size: 0.85rem;">
+                            <th style="padding: 15px 10px; font-weight: 600;">Date</th>
+                            <th style="padding: 15px 10px; font-weight: 600;">Farmer</th>
+                            <th style="padding: 15px 10px; font-weight: 600;">NPK Nutrients</th>
+                            <th style="padding: 15px 10px; font-weight: 600;">pH</th>
+                            <th style="padding: 15px 10px; font-weight: 600;">Climatic Data</th>
+                            <th style="padding: 15px 10px; font-weight: 600;">Predicted Crop</th>
+                            <th style="padding: 15px 10px; font-weight: 600;">Accuracy</th>
+                            <th style="padding: 15px 10px; font-weight: 600; text-align: right;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in predictions %}
+                        <tr style="border-bottom: 1px solid rgba(45,106,79,0.05); font-size: 0.9rem;">
+                            <td style="padding: 16px 10px; color: var(--text-muted); font-size: 0.8rem;">
+                                {{ row.created_at[:16].replace('T', ' ') }}
+                            </td>
+                            <td style="padding: 16px 10px; font-weight: 600; color: var(--primary-dark);">
+                                @{{ row.username if row.username else 'guest' }}
+                            </td>
+                            <td style="padding: 16px 10px; font-family: monospace; font-size: 0.85rem;">
+                                N:{{ row.nitrogen|int }} | P:{{ row.phosphorus|int }} | K:{{ row.potassium|int }}
+                            </td>
+                            <td style="padding: 16px 10px; font-weight: 600; color: var(--primary);">
+                                {{ row.ph|round(1) }}
+                            </td>
+                            <td style="padding: 16px 10px; color: var(--text-muted); font-size: 0.8rem;">
+                                T: {{ row.temperature|round(1) }}°C | H: {{ row.humidity|round(1) }}% | R: {{ row.rainfall|int }}mm
+                            </td>
+                            <td style="padding: 16px 10px; font-weight: 700; color: var(--primary-dark);">
+                                {{ row.predicted_crop }}
+                            </td>
+                            <td style="padding: 16px 10px;">
+                                <span style="background: rgba(45,106,79,0.08); color: var(--primary); font-weight: 600; font-size: 0.75rem; padding: 3px 8px; border-radius: 4px;">
+                                    {{ row.confidence|int }}%
+                                </span>
+                            </td>
+                            <td style="padding: 16px 10px; text-align: right;">
+                                <a href="{{ url_for('result', id=row.id) }}" class="btn-secondary" style="padding: 4px 10px; font-size: 0.75rem; font-weight: 600; border-radius: 50px; text-decoration: none; border-color: rgba(45,106,79,0.3); color: var(--primary);">
+                                    View
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p style="text-align: center; color: var(--text-muted); padding: 40px 0;">No crop prediction audits present in system.</p>
+            {% endif %}
+        </div>
+
+        <!-- TAB 3: DIAGNOSTICS & INTEGRATIONS -->
+        <div id="tab-diagnostics" class="admin-tab-content" style="background: white; border-radius: var(--radius-lg); padding: 35px; box-shadow: var(--shadow-sm); border: 1px solid rgba(45,106,79,0.06);">
+            <h3 style="font-size: 1.3rem; font-weight: 700; color: var(--primary-dark); margin-bottom: 25px;"><i class="fas fa-satellite-dish" style="color: var(--primary); margin-right: 8px;"></i> External API Integrations & Diagnostics</h3>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; flex-wrap: wrap;">
+                <div>
+                    <h4 style="font-size: 1.05rem; font-weight: 700; color: var(--primary); margin-bottom: 15px;"><i class="fas fa-key" style="margin-right: 8px;"></i> Configured API Keys</h4>
+                    
+                    <div style="background: var(--bg-light); padding: 20px; border-radius: var(--radius); border-left: 4px solid var(--accent); margin-bottom: 20px;">
+                        <h5 style="font-weight: 700; font-size: 0.9rem; color: var(--primary-dark); margin-bottom: 6px;">Agri Weather Autofill Service</h5>
+                        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px;">Active token used by front-end to download micro-climatic readings.</p>
+                        <div style="background: white; padding: 10px 15px; border-radius: 8px; border: 1px dashed rgba(45,106,79,0.2); font-family: monospace; font-size: 0.85rem; color: var(--primary-dark); display: flex; justify-content: space-between; align-items: center;">
+                            <span>{{ stats.api_key[:12] }}************************{{ stats.api_key[-6:] }}</span>
+                            <span style="background: #27ae60; color: white; font-weight: 700; font-size: 0.65rem; padding: 3px 8px; border-radius: 50px; text-transform: uppercase;">ACTIVE</span>
+                        </div>
+                    </div>
+                    
+                    <div style="background: #fdfefe; border: 1px solid rgba(45,106,79,0.1); padding: 20px; border-radius: var(--radius);">
+                        <h5 style="font-weight: 700; font-size: 0.9rem; color: var(--primary-dark); margin-bottom: 6px;">Service Provider Logs</h5>
+                        <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.5;">API request logging acts as security audit ledger for key distribution protocols.</p>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 style="font-size: 1.05rem; font-weight: 700; color: var(--primary); margin-bottom: 15px;"><i class="fas fa-server" style="margin-right: 8px;"></i> Platform Telemetry</h4>
+                    
+                    <div style="background: #fdfefe; border: 1px solid rgba(45,106,79,0.1); padding: 25px; border-radius: var(--radius);">
+                        <div style="margin-bottom: 20px;">
+                            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600; color: var(--text-dark); margin-bottom: 5px;">
+                                <span>Host CPU Utilization</span>
+                                <span>14.2%</span>
+                            </div>
+                            <div style="height: 6px; background: rgba(0,0,0,0.05); border-radius: 3px; overflow: hidden;">
+                                <div style="width: 14%; height: 100%; background: #2d6a4f;"></div>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600; color: var(--text-dark); margin-bottom: 5px;">
+                                <span>Host Memory Usage</span>
+                                <span>58.7 MB</span>
+                            </div>
+                            <div style="height: 6px; background: rgba(0,0,0,0.05); border-radius: 3px; overflow: hidden;">
+                                <div style="width: 32%; height: 100%; background: #3498db;"></div>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 10px;">
+                            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600; color: var(--text-dark); margin-bottom: 5px;">
+                                <span>SQLite DB Footprint</span>
+                                <span>48.0 KB</span>
+                            </div>
+                            <div style="height: 6px; background: rgba(0,0,0,0.05); border-radius: 3px; overflow: hidden;">
+                                <div style="width: 5%; height: 100%; background: var(--accent);"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: SYSTEM MAINTENANCE -->
+        <div id="tab-maintenance" class="admin-tab-content" style="background: white; border-radius: var(--radius-lg); padding: 35px; box-shadow: var(--shadow-sm); border: 1px solid rgba(45,106,79,0.06);">
+            <h3 style="font-size: 1.3rem; font-weight: 700; color: var(--primary-dark); margin-bottom: 25px;"><i class="fas fa-tools" style="color: var(--primary); margin-right: 8px;"></i> System Settings & Maintenance Actions</h3>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+                
+                <!-- Action Card 1: Retrain -->
+                <div style="background: #fdfefe; border: 1px solid rgba(45,106,79,0.1); padding: 25px; border-radius: var(--radius); display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <h4 style="font-weight: 700; color: var(--primary-dark); font-size: 1rem; margin-bottom: 8px;"><i class="fas fa-brain" style="color: var(--primary); margin-right: 6px;"></i> Retrain ML Classifier</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px;">
+                            Runs `main.py` pipeline to parse `Crop_recommendation.csv`, execute KMeans clusters & LogisticRegression fit, and overwrite `model.pkl`.
+                        </p>
+                    </div>
+                    <form action="{{ url_for('admin_retrain') }}" method="POST">
+                        <button type="submit" class="btn-predict" style="width: 100%; font-size: 0.85rem; padding: 12px; background: var(--gradient-1); border: none; color: white; cursor: pointer; border-radius: 50px;">
+                            <i class="fas fa-sync"></i> Re-Train Model
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Action Card 2: Clear Logs -->
+                <div style="background: #fdfefe; border: 1px solid rgba(45,106,79,0.1); padding: 25px; border-radius: var(--radius); display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <h4 style="font-weight: 700; color: #e74c3c; font-size: 1rem; margin-bottom: 8px;"><i class="fas fa-trash-alt" style="margin-right: 6px;"></i> Clear Prediction Audit Logs</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px;">
+                            Trashes all logged agronomy data in database table `predictions`. Users list remains safe. This action is irreversible.
+                        </p>
+                    </div>
+                    <form action="{{ url_for('admin_clear_predictions') }}" method="POST" onsubmit="return confirm('CRITICAL WARNING: Are you sure you want to wipe out all logged predictions?');">
+                        <button type="submit" class="btn-predict" style="width: 100%; font-size: 0.85rem; padding: 12px; background: #e74c3c; border: none; color: white; cursor: pointer; border-radius: 50px;">
+                            <i class="fas fa-skull-crossbones"></i> Clear All Logs
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Action Card 3: Export Data -->
+                <div style="background: #fdfefe; border: 1px solid rgba(45,106,79,0.1); padding: 25px; border-radius: var(--radius); display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <h4 style="font-weight: 700; color: var(--primary-dark); font-size: 1rem; margin-bottom: 8px;"><i class="fas fa-file-export" style="color: var(--primary); margin-right: 6px;"></i> Export Data Files</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px;">
+                            Fetch and export internal CSV data sheets, database structures, or active prediction models.
+                        </p>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <button onclick="window.print();" class="btn-secondary" style="width: 100%; font-size: 0.85rem; padding: 10px; border-radius: 50px; color: var(--primary); border-color: rgba(45,106,79,0.3);">
+                            <i class="fas fa-print"></i> Print Admin Audit Report
+                        </button>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- Simple Tab Switcher Code -->
+<script>
+    function switchAdminTab(tabName) {
+        // Remove active class from all buttons
+        document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        // Remove active class from all contents
+        document.querySelectorAll('.admin-tab-content').forEach(content => {
+            content.classList.remove('active');
+        });
+        
+        // Find click trigger button
+        event.currentTarget.classList.add('active');
+        // Find matching content container
+        document.getElementById('tab-' + tabName).classList.add('active');
+    }
+</script>
+{% endblock %}

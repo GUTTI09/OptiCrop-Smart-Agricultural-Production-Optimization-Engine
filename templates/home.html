@@ -1,0 +1,261 @@
+{% extends "base.html" %}
+{% block title %}OptiCrop – Smart Agricultural Production Optimization{% endblock %}
+{% set active_page = 'home' %}
+
+{% block content %}
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-bg-image"></div>
+        <div class="hero-particles" id="particles"></div>
+        <div class="hero-grid-overlay"></div>
+
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-seedling"></i>
+                    Smart Agricultural Production Optimization Engine
+                </div>
+
+                <h1 class="hero-title">
+                    Grow Smarter with <span class="highlight">AI-Powered</span> Crop Intelligence
+                </h1>
+
+                <p class="hero-subtitle">
+                    OptiCrop leverages advanced machine learning and environmental data analytics to help farmers make data-driven decisions, optimize crop yields, and build a sustainable agricultural future.
+                </p>
+
+                <div class="hero-actions">
+                    <a href="{{ url_for('find_your_crop') }}" class="btn-primary">
+                        <i class="fas fa-search"></i> Find Your Crop
+                    </a>
+                    <a href="{{ url_for('about') }}" class="btn-secondary">
+                        <i class="fas fa-play-circle"></i> Learn More
+                    </a>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number" data-count="95">0%</div>
+                        <div class="stat-label">Accuracy Rate</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-count="50">0+</div>
+                        <div class="stat-label">Crop Types</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-count="10">0K+</div>
+                        <div class="stat-label">Farmers Helped</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="hero-image-wrapper">
+                    <img src="{{ url_for('static', filename='images/home.jpg') }}" alt="Smart Agricultural Production Optimization - OptiCrop Dashboard" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22800%22 height=%22600%22%3E%3Crect width=%22800%22 height=%22600%22 fill=%22%232d6a4f%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2224%22 fill=%22white%22%3ESmart Agriculture Dashboard%3C/text%3E%3C/svg%3E';">
+                </div>
+
+                <div class="hero-float-card card-1">
+                    <div class="float-card-icon green">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="float-card-text">
+                        <h4>Yield Forecast</h4>
+                        <p>+12.4% increase</p>
+                    </div>
+                </div>
+
+                <div class="hero-float-card card-2">
+                    <div class="float-card-icon orange">
+                        <i class="fas fa-tint"></i>
+                    </div>
+                    <div class="float-card-text">
+                        <h4>Soil Moisture</h4>
+                        <p>Optimal: 78%</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section features-section">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-tag">
+                    <i class="fas fa-cogs"></i> Our Features
+                </div>
+                <h2 class="section-title">
+                    Why Choose <span class="highlight">OptiCrop</span>?
+                </h2>
+                <p class="section-desc">
+                    Our platform combines the power of artificial intelligence with agricultural science to deliver unparalleled crop optimization solutions.
+                </p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card reveal">
+                    <div class="feature-icon green">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>AI Crop Recommendation</h3>
+                    <p>Our machine learning models analyze soil pH, temperature, humidity, rainfall, and nutrient levels to recommend the most suitable crops for your land.</p>
+                    <a href="{{ url_for('find_your_crop') }}" class="feature-link">
+                        Try it now <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="feature-card reveal">
+                    <div class="feature-icon orange">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <h3>Yield Prediction</h3>
+                    <p>Get accurate yield forecasts based on historical data and current environmental conditions, helping you plan harvests and maximize profits.</p>
+                    <a href="{{ url_for('result') }}" class="feature-link">
+                        View results <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="feature-card reveal">
+                    <div class="feature-icon blue">
+                        <i class="fas fa-satellite-dish"></i>
+                    </div>
+                    <h3>Real-Time Monitoring</h3>
+                    <p>Track soil moisture, temperature, and weather patterns in real-time with our integrated IoT sensor network and satellite data.</p>
+                    <a href="{{ url_for('about') }}" class="feature-link">
+                        Learn more <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="feature-card reveal">
+                    <div class="feature-icon orange">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <h3>Soil Health Analysis</h3>
+                    <p>Comprehensive soil testing and nutrient analysis to understand your land's composition and make informed fertilization decisions.</p>
+                    <a href="{{ url_for('find_your_crop') }}" class="feature-link">
+                        Analyze soil <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="feature-card reveal">
+                    <div class="feature-icon green">
+                        <i class="fas fa-cloud-sun-rain"></i>
+                    </div>
+                    <h3>Weather Forecasting</h3>
+                    <p>Integrated weather prediction models help you plan irrigation, planting, and harvesting schedules with confidence.</p>
+                    <a href="{{ url_for('find_your_crop') }}" class="feature-link">
+                        Check forecast <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="feature-card reveal">
+                    <div class="feature-icon blue">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Mobile Access</h3>
+                    <p>Access your farm data and crop recommendations anywhere, anytime through our responsive web application and mobile interface.</p>
+                    <a href="{{ url_for('home') }}" class="feature-link">
+                        Get started <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="section testimonials-section">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-tag">
+                    <i class="fas fa-quote-left"></i> Testimonials
+                </div>
+                <h2 class="section-title">
+                    What Farmers Say About <span class="highlight" style="color: var(--accent-light);">OptiCrop</span>
+                </h2>
+                <p class="section-desc">
+                    Join thousands of farmers who have transformed their agricultural practices with our intelligent crop optimization platform.
+                </p>
+            </div>
+
+            <div class="testimonials-grid">
+                <div class="testimonial-card reveal">
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">
+                        "OptiCrop has completely transformed how I plan my farming seasons. The crop recommendations are incredibly accurate and have boosted my yield by over 30%."
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">RK</div>
+                        <div class="testimonial-author-info">
+                            <h4>Rajesh Kumar</h4>
+                            <p>Wheat Farmer, Punjab</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card reveal">
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">
+                        "The soil analysis and weather integration features are outstanding. I can now make data-driven decisions instead of relying on guesswork. Highly recommended!"
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">SP</div>
+                        <div class="testimonial-author-info">
+                            <h4>Sunita Patel</h4>
+                            <p>Rice Cultivator, Maharashtra</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card reveal">
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <p class="testimonial-text">
+                        "As a small-scale farmer, OptiCrop has given me access to technology that was previously only available to large agribusinesses. It's truly empowering."
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">AM</div>
+                        <div class="testimonial-author-info">
+                            <h4>Anil Mehta</h4>
+                            <p>Vegetable Farmer, Karnataka</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-box reveal">
+                <h2>Ready to Optimize Your Farm?</h2>
+                <p>Join thousands of farmers using OptiCrop to make smarter agricultural decisions and maximize their yields sustainably.</p>
+                <div class="cta-actions">
+                    <button class="btn-primary" onclick="openModal('signup')" style="background: var(--gradient-2); color: var(--primary-dark);">
+                        <i class="fas fa-rocket"></i> Get Started Free
+                    </button>
+                    <a href="{{ url_for('find_your_crop') }}" class="btn-secondary" style="border-color: rgba(255,255,255,0.4);">
+                        <i class="fas fa-play"></i> Try Demo
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
